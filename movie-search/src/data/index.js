@@ -3,13 +3,20 @@ const source = `http://www.omdbapi.com/?apikey=${key}`
 
 export async function getData(request) {
   const response = await fetch(request)
-  return response.json()
+
+  if (response.ok) return response.json()
+
+  throw new Error(`${response.status} ${response.statusText}`)
 }
 
-export async function searchMoviesByTitle(title) {
-  const request = `${source}&s=${title}`
+export async function searchMoviesByTitle(title, page) {
+  const request = `${source}&s=${title}&page=${page}`
   const response = await getData(request)
-  return response.Search
+
+  if (response.Response === 'False')
+    throw new Error(`No results for: "${title}"`)
+
+  return response
 }
 
 export async function searchMovieById(id) {

@@ -112,6 +112,19 @@ module.exports = (env, argv) => {
           use: jsLoaders(),
         },
         {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: isDev,
+                reloadAll: true,
+              },
+            },
+            'css-loader',
+          ],
+        },
+        {
           test: /\.s[ac]ss$/,
           use: [
             {
