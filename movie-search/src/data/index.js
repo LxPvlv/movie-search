@@ -1,5 +1,5 @@
 const key = '1dad9129'
-const source = `http://www.omdbapi.com/?apikey=${key}`
+const source = `https://www.omdbapi.com/?apikey=${key}`
 
 export async function getData(request) {
   const response = await fetch(request)
