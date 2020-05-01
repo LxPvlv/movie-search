@@ -8,6 +8,7 @@ import { movieTemplate } from './templates'
 const searchForm = document.querySelector('#search-form')
 const messageField = document.querySelector('#message-field')
 const searchInput = searchForm.querySelector('#search-input')
+const clearInputButton = searchForm.querySelector('#clear-input')
 
 const state = {
   page: 0,
@@ -98,10 +99,18 @@ async function addSlides(newQuery = false) {
 
 function handleSubmit(e) {
   e.preventDefault()
+  if (searchInput.value === '') return
+
   addSlides(true)
 }
 
 searchForm.addEventListener('submit', handleSubmit)
+
+clearInputButton.addEventListener('click', () => {
+  searchInput.value = ''
+})
+
+searchInput.focus()
 
 movieSwiper.on('reachEnd', () => {
   const swiperLength = movieSwiper.slides.length
