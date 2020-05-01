@@ -1,0 +1,84 @@
+.search-container {
+  display: flex;
+  position: relative;
+}
+
+.search-input {
+  flex-grow: 1;
+  font-size: 3rem;
+  color: wheat;
+  background: #222a41;
+  border-radius: 8px;
+  border: 3px solid wheat;
+  padding: 5px 100px;
+  outline: none;
+  box-shadow: 0 0 2px wheat, inset 0 0 3px wheat;
+  text-align: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.search-methods,
+.search-tools {
+  position: relative;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 8px 0;
+  display: flex;
+}
+.search-methods {
+  left: 7px;
+}
+.search-tools {
+  right: 7px;
+}
+
+.search-methods > *:not(:last-child),
+.search-tools > *:not(:last-child) {
+  margin-right: 10px;
+}
+
+.clear-input,
+.search-mic,
+.search-keyboard,
+.search-lens {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.clear-input {
+  background-image: url('../images/clear-input.svg');
+  width: 32px;
+  &:hover {
+    background-image: url('../images/clear-input-hover.svg');
+  }
+}
+.search-mic {
+  background-image: url('../images/mic.svg');
+  width: 20px;
+  &:hover {
+    background-image: url('../images/mic-hover.svg');
+  }
+}
+.search-keyboard {
+  background-image: url('../images/keyboard.svg');
+  width: 51px;
+  &:hover {
+    background-image: url('../images/keyboard-hover.svg');
+  }
+}
+.search-lens {
+  background-image: url('../images/search-lens.svg');
+  width: 33px;
+  &:hover {
+    background-image: url('../images/search-lens-hover.svg');
+  }
+}
