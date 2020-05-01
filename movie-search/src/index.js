@@ -28,7 +28,7 @@ const movieSwiper = new Swiper('.swiper-container', {
   watchSlidesProgress: true,
   watchSlidesVisibility: true,
   slidesPerView: 4,
-  spaceBetween: 30,
+  spaceBetween: 10,
   pagination: {
     el: '.swiper-pagination',
     type: 'fraction',
@@ -40,15 +40,12 @@ const movieSwiper = new Swiper('.swiper-container', {
   breakpoints: {
     220: {
       slidesPerView: 1,
-      spaceBetween: 20,
     },
     480: {
       slidesPerView: 3,
-      spaceBetween: 30,
     },
     640: {
       slidesPerView: 4,
-      spaceBetween: 40,
     },
   },
 })

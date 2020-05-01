@@ -6,27 +6,37 @@
   <title>Movie Search</title>
 </head>
 <body>
-  <header>
-    <h1>Movie Search</h1>
+  <header class="header">
+    <h1 class="header__title">Movie Search</h1>
   </header>
 
-  <form id='search-form'>
-    <input type="search" name="search" id="search-input"><input type="submit" value="Search">
-  </form>
+  <main>
 
-  <div id="message-field"></div>
+    <form id='search-form' class="search-form">
+      <div class="search-container">
+        <input type="text" name="search" class="search-input" id="search-input">
+        <button class="search-tool" type="submit"></button>
+      </div>
+    </form>
 
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
+    <div id="message-field"></div>
+
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+      </div>
+
+      <div class="swiper-pagination"></div>
+
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+
+      <div class="swiper-scrollbar"></div>
     </div>
 
-    <div class="swiper-pagination"></div>
+  </main>
 
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-
-    <div class="swiper-scrollbar"></div>
-  </div>
-
+  <footer>
+    footer
+  </footer>
 </body>
 </html>

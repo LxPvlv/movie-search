@@ -1,13 +1,128 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #141927;
+  text-align: center;
+  color: #f5deb3;
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+
+.header {
+  padding: 20px;
+  background-color: #222a41;
+  background-image: url('../images/film-roll.png');
+  background-size: contain;
+  background-position: center;
+}
+
+.header__title {
+  margin: 0;
+  font-size: 5rem;
+  text-shadow: 0px 0px 25px #d7c517, -1px 2px 0 #20285b, 0px 0px 5px #9e8d1e;
+}
+
+main {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.search-form {
+  padding: 30px 0;
+}
+
+.search-container {
+  display: flex;
+  position: relative;
+}
+
+.search-input {
+  flex-grow: 1;
+  font-size: 3rem;
+  color: wheat;
+  background: #222a41;
+  border-radius: 8px;
+  border: 3px solid wheat;
+  padding: 5px 16px;
+  outline: none;
+  box-shadow: 0 0 2px wheat, inset 0 0 3px wheat;
+}
+
+.search-tool {
+  background-image: url('../images/search-tool.svg');
+  background-size: 35px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 50px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
 .swiper-container {
   width: 100%;
-  height: 600px;
-  border: 1px solid green;
+  padding-bottom: 30px;
+  max-width: 1000px;
+}
+
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: unset;
+}
+
+.movie__title {
+  font-size: 2.5rem;
+  height: 55px;
+  margin: 0 0 5px;
+  overflow: hidden;
 }
 
 .movie__img {
   width: 100%;
+  flex-grow: 1;
+  object-fit: cover;
+}
+
+.movie__info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.movie__year,
+.movie__rating {
+  padding-top: 5px;
+  letter-spacing: 3px;
+}
+
+.movie__rating {
+  display: flex;
+  align-items: center;
+}
+.movie__rating img {
+  width: 15px;
+  margin-right: 8px;
 }
 
 .swiper-scrollbar-drag {
   cursor: pointer;
+}
+
+.swiper-scrollbar {
+  background: #f5deb30f;
+}
+
+.swiper-scrollbar-drag {
+  background: wheat;
 }
