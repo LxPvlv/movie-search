@@ -4,11 +4,18 @@ import '../node_modules/swiper/css/swiper.min.css'
 import Swiper from 'swiper'
 import { searchMoviesByTitle, searchMovieById } from './data'
 import { movieTemplate } from './templates'
+import keyboard from './keyboard'
 
 const searchForm = document.querySelector('#search-form')
 const messageField = document.querySelector('#message-field')
 const searchInput = searchForm.querySelector('#search-input')
 const clearInputButton = searchForm.querySelector('#clear-input')
+const keyboardButton = searchForm.querySelector('.search-keyboard')
+const keyboardElement = searchForm.querySelector('#keyboard')
+
+keyboardButton.addEventListener('click', () => {
+  keyboard(keyboardElement, searchInput)
+})
 
 const state = {
   page: 0,

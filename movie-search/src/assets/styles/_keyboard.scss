@@ -1,0 +1,127 @@
+.keyboard-text {
+  width: 100%;
+  height: 20vh;
+  margin: 3px;
+  white-space: nowrap;
+  resize: vertical;
+}
+
+.keyboard-text:focus {
+  outline: none;
+}
+
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 842px;
+}
+.row {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.key-container {
+  background: linear-gradient(0deg, #1856bf05, #ffffff00);
+  margin: 3px;
+  box-shadow: 0px 2px 5px -2px #4b5d975e;
+  position: relative;
+  flex-shrink: 0;
+  flex-basis: 5.5%;
+  border: 1px solid #00000012;
+}
+.key-square:before {
+  content: '';
+  display: block;
+  flex-grow: 0;
+  padding-top: 80%;
+}
+.key-rectangle {
+  flex-grow: 1;
+  align-self: stretch;
+}
+
+.pict-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  user-select: none;
+}
+
+.pict-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.keyboard .row:first-of-type .key-container:nth-child(4n + 1) {
+  margin-right: auto;
+}
+
+#layout-Tab {
+  flex-basis: 5%;
+}
+
+#layout-CapsLock {
+  flex-basis: 5%;
+}
+
+#layout-ShiftLeft {
+  flex-basis: 10%;
+}
+
+#layout-Space {
+  flex-basis: 40%;
+}
+
+.key-container .ru-upper,
+.key-container .ru-lower,
+.key-container .en-upper,
+.key-container .en-lower {
+  display: none;
+}
+
+.ru.upper .ru-upper,
+.en.upper .en-upper,
+.ru.lower .ru-lower,
+.en.lower .en-lower {
+  display: block;
+}
+
+.key-lock {
+  color: #3c803c;
+  box-shadow: 0 0 22px -14px green, inset 0 0 20px -19px green;
+}
+
+.key-highlight {
+  background-color: #e2e4f9;
+}
+
+.ripple {
+  box-shadow: 0 0 3px rgb(2, 21, 87);
+  transform: scale(1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  animation: rippleDrop 0.1s linear;
+}
+
+@keyframes rippleDrop {
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
