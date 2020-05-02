@@ -1,18 +1,12 @@
 export default [
   [
     { code: 'Escape', label: 'Esc', type: 's' },
-    { code: 'F1', label: 'F1', type: 's' },
-    { code: 'F2', label: 'F2', type: 's' },
-    { code: 'F3', label: 'F3', type: 's' },
-    { code: 'F4', label: 'F4', type: 's' },
-    { code: 'F5', label: 'F5', type: 's' },
-    { code: 'F6', label: 'F6', type: 's' },
-    { code: 'F7', label: 'F7', type: 's' },
-    { code: 'F8', label: 'F8', type: 's' },
-    { code: 'F9', label: 'F9', type: 's' },
-    { code: 'F10', label: 'F10', type: 's' },
-    { code: 'F11', label: 'F11', type: 's' },
-    { code: 'F12', label: 'F12', type: 's' },
+    { code: 'Home', label: 'Home', type: 's' },
+    // { code: 'PageUp', label: 'Page<br>Up', type: 's' },
+    // { code: 'PageDown', label: 'Page Down', type: 's' },
+    { code: 'ArrowLeft', label: '◄', type: 's' },
+    { code: 'ArrowRight', label: '►', type: 's' },
+    { code: 'End', label: 'End', type: 's' },
     { code: 'Delete', label: 'Delete', type: 's' },
   ],
   [
@@ -34,7 +28,6 @@ export default [
     { code: 'Minus', layout: { ru: ['_', '-'], en: ['_', '-'] }, type: 's' },
     { code: 'Equal', layout: { ru: ['+', '='], en: ['+', '='] }, type: 's' },
     { code: 'Backspace', label: 'Backspace', type: 'r' },
-    { code: 'Home', label: 'Home', type: 's' },
   ],
   [
     {
@@ -67,8 +60,6 @@ export default [
       layout: { ru: ['/', '\\'], en: ['|', '\\'] },
       type: 'r',
     },
-
-    { code: 'PageUp', label: 'Page<br>Up', type: 's' },
   ],
   [
     { code: 'CapsLock', label: 'Caps<br>Lock', type: 'r' },
@@ -92,8 +83,6 @@ export default [
       layout: { ru: ['Enter', 'Enter'], en: ['Enter', 'Enter'] },
       type: 'r',
     },
-
-    { code: 'PageDown', label: 'Page Down', type: 's' },
   ],
   [
     { code: 'ShiftLeft', label: 'Shift', type: 'r' },
@@ -108,12 +97,11 @@ export default [
     { code: 'Period', layout: { ru: ['Ю', 'ю'], en: ['>', '.'] }, type: 's' },
     { code: 'Slash', layout: { ru: [',', '.'], en: ['?', '/'] }, type: 's' },
     { code: 'ShiftRight', label: 'Shift', type: 'r' },
-    { code: 'ArrowUp', label: '▲', type: 's' },
-    { code: 'End', label: 'End', type: 's' },
+    // { code: 'ArrowUp', label: '▲', type: 's' },
   ],
   [
     { code: 'ControlLeft', label: 'Ctrl', type: 'r' },
-    { code: 'MetaLeft', label: '⊞', type: 'r' },
+    { code: 'MetaLeft', label: '⊞', type: 's' },
     { code: 'AltLeft', label: 'Alt', type: 'r' },
     {
       code: 'Space',
@@ -122,8 +110,5 @@ export default [
     },
     { code: 'AltRight', label: 'Alt', type: 'r' },
     { code: 'ControlRight', label: 'Ctrl', type: 'r' },
-    { code: 'ArrowLeft', label: '◄', type: 's' },
-    { code: 'ArrowDown', label: '▼', type: 's' },
-    { code: 'ArrowRight', label: '►', type: 's' },
   ],
 ]

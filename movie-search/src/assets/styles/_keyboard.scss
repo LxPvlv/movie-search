@@ -15,7 +15,17 @@
   flex-wrap: wrap;
   width: 100%;
   min-width: 842px;
+  position: absolute;
+  background: #222a41;
+  z-index: 2;
+  font-size: 1.8rem;
+  box-sizing: border-box;
+  @include border;
 }
+.keyboard_hidden {
+  display: none;
+}
+
 .row {
   display: flex;
   width: 100%;
@@ -29,7 +39,8 @@
   position: relative;
   flex-shrink: 0;
   flex-basis: 5.5%;
-  border: 1px solid #00000012;
+  border: 1px solid rgba(245, 222, 179, 0.08);
+  border-radius: 5px;
 }
 .key-square:before {
   content: '';
@@ -73,11 +84,11 @@
 }
 
 #layout-CapsLock {
-  flex-basis: 5%;
+  flex-basis: 3%;
 }
 
 #layout-ShiftLeft {
-  flex-basis: 10%;
+  flex-basis: 3%;
 }
 
 #layout-Space {
@@ -104,11 +115,11 @@
 }
 
 .key-highlight {
-  background-color: #e2e4f9;
+  background-color: #2a3250;
 }
 
 .ripple {
-  box-shadow: 0 0 3px rgb(2, 21, 87);
+  box-shadow: 0 0 3px wheat;
   transform: scale(1);
   position: absolute;
   top: 0;

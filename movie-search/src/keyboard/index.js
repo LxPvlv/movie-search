@@ -121,6 +121,7 @@ export default function (keyboardElement, inputElement) {
     const edited =
       value.slice(0, selectionStart) + text + value.slice(selectionEnd)
     textElement.value = edited
+    textElement.focus()
     textElement.selectionStart = selectionStart + 1
     textElement.selectionEnd = selectionStart + 1
   }
@@ -268,6 +269,8 @@ export default function (keyboardElement, inputElement) {
     }
   }
 
+  /* ********* EVENT LISTENERS ********* */
+
   const handleUp = e => {
     const code = crossBrowserCode(e.code)
     if (code === 'ShiftLeft' || code === 'ShiftRight') {
@@ -279,8 +282,6 @@ export default function (keyboardElement, inputElement) {
     keyElement.classList.remove('key-highlight')
   }
 
-  /* ********* EVENT LISTENERS ********* */
-
   const preventDefault = e => e.preventDefault()
   textElement.addEventListener('keydown', preventDefault)
 
@@ -289,9 +290,9 @@ export default function (keyboardElement, inputElement) {
     dropHandler = ({ code: dropKeyCode }) => {
       keyElement.classList.remove('key-lock')
       if (dropKeyCode === 'ShiftLeft' || dropKeyCode === 'ShiftRight') {
-        handleDown(lockedShift)
+        handleDown({ code: lockedShift })
       } else {
-        handleUp(lockedShift)
+        handleUp({ code: lockedShift })
       }
 
       document.removeEventListener('mousedown', dropHandler)
@@ -307,7 +308,7 @@ export default function (keyboardElement, inputElement) {
     })
   }
 
-  const handleChangeLayout = e => {
+  const handleKeyDown = e => {
     const code = crossBrowserCode(e.code)
     if (
       (code === 'ControlLeft' || code === 'AltLeft') &&
@@ -319,7 +320,7 @@ export default function (keyboardElement, inputElement) {
 
     handleDown(code)
   }
-  document.addEventListener('keydown', handleChangeLayout)
+  document.addEventListener('keydown', handleKeyDown)
 
   document.addEventListener('keyup', handleUp)
 
@@ -380,15 +381,17 @@ export default function (keyboardElement, inputElement) {
   window.addEventListener('focus', handleWindowFocus)
 
   // remove listeners
-  return () => {
+  const removeKeyboardListeners = () => {
     textElement.removeEventListener('keydown', preventDefault)
     document.removeEventListener('mousedown', dropHandler)
     document.removeEventListener('keydown', dropHandler)
-    document.removeEventListener('keydown', handleChangeLayout)
+    document.removeEventListener('keydown', handleKeyDown)
     document.removeEventListener('keyup', handleUp)
     document.removeEventListener('mousedown', addHighlight)
     document.removeEventListener('mouseup', removeHighlight)
     window.removeEventListener('blur', handleWindowBlur)
     window.removeEventListener('focus', handleWindowFocus)
   }
+
+  return removeKeyboardListeners
 }

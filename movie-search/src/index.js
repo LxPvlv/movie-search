@@ -11,7 +11,7 @@ const messageField = document.querySelector('#message-field')
 const searchInput = searchForm.querySelector('#search-input')
 const clearInputButton = searchForm.querySelector('#clear-input')
 const keyboardButton = searchForm.querySelector('.search-keyboard')
-const keyboardElement = searchForm.querySelector('#keyboard')
+const keyboardElement = document.querySelector('#keyboard')
 
 let removeKeyboardListeners
 let isKeyboardOpen = false
@@ -19,10 +19,12 @@ keyboardButton.addEventListener('click', () => {
   if (isKeyboardOpen) {
     removeKeyboardListeners()
     keyboardElement.innerHTML = ''
+    keyboardElement.setAttribute('class', 'keyboard keyboard_hidden')
     isKeyboardOpen = false
   } else {
     removeKeyboardListeners = keyboard(keyboardElement, searchInput)
     isKeyboardOpen = true
+    keyboardElement.classList.remove('keyboard_hidden')
   }
 })
 

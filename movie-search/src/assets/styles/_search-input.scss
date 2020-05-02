@@ -8,14 +8,11 @@
   font-size: 3rem;
   color: wheat;
   background: #222a41;
-  border-radius: 8px;
-  border: 3px solid wheat;
   padding: 5px 100px;
   outline: none;
-  box-shadow: 0 0 2px wheat, inset 0 0 3px wheat;
-  text-align: center;
   width: 100%;
   min-width: 0;
+  @include border;
 }
 
 .search-methods,
