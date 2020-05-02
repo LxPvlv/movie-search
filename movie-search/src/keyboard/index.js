@@ -53,8 +53,6 @@ export default function (keyboardElement, inputElement) {
   keyboard.classList.add(language)
   keyboard.classList.add('lower')
 
-  textElement.addEventListener('keydown', e => e.preventDefault())
-
   codes.forEach(row => {
     const keyboardRow = createElementWithClass('div', 'row')
 
@@ -270,7 +268,8 @@ export default function (keyboardElement, inputElement) {
     }
   }
 
-  const handleUp = code => {
+  const handleUp = e => {
+    const code = crossBrowserCode(e.code)
     if (code === 'ShiftLeft' || code === 'ShiftRight') {
       toggleShift(code.slice(5).toLowerCase(), false)
     }
@@ -282,8 +281,12 @@ export default function (keyboardElement, inputElement) {
 
   /* ********* EVENT LISTENERS ********* */
 
+  const preventDefault = e => e.preventDefault()
+  textElement.addEventListener('keydown', preventDefault)
+
+  let dropHandler
   const addDropHandlers = (lockedShift, keyElement) => {
-    function dropHandler({ code: dropKeyCode }) {
+    dropHandler = ({ code: dropKeyCode }) => {
       keyElement.classList.remove('key-lock')
       if (dropKeyCode === 'ShiftLeft' || dropKeyCode === 'ShiftRight') {
         handleDown(lockedShift)
@@ -304,7 +307,7 @@ export default function (keyboardElement, inputElement) {
     })
   }
 
-  document.addEventListener('keydown', e => {
+  const handleChangeLayout = e => {
     const code = crossBrowserCode(e.code)
     if (
       (code === 'ControlLeft' || code === 'AltLeft') &&
@@ -315,14 +318,12 @@ export default function (keyboardElement, inputElement) {
     }
 
     handleDown(code)
-  })
+  }
+  document.addEventListener('keydown', handleChangeLayout)
 
-  document.addEventListener('keyup', e => {
-    const code = crossBrowserCode(e.code)
-    handleUp(code)
-  })
+  document.addEventListener('keyup', handleUp)
 
-  document.addEventListener('mousedown', e => {
+  const addHighlight = e => {
     const keyElement = e.target
     if (!keyElement.classList.contains('pict-container')) return
 
@@ -340,9 +341,10 @@ export default function (keyboardElement, inputElement) {
     keyElement.classList.add('key-highlight')
 
     handleDown(code)
-  })
+  }
+  document.addEventListener('mousedown', addHighlight)
 
-  document.addEventListener('mouseup', e => {
+  const removeHighlight = e => {
     const code = e.target.id
     if (!(code === 'PageUp' || code === 'PageDown')) {
       textElement.focus()
@@ -352,9 +354,10 @@ export default function (keyboardElement, inputElement) {
     pressedKeys.forEach(key => {
       key.classList.remove('key-highlight')
     })
-  })
+  }
+  document.addEventListener('mouseup', removeHighlight)
 
-  window.addEventListener('blur', () => {
+  const handleWindowBlur = () => {
     shiftPressed.left = false
     shiftPressed.right = false
 
@@ -362,9 +365,10 @@ export default function (keyboardElement, inputElement) {
     if (keysPressed && keysPressed.length) {
       keysPressed.forEach(key => key.classList.remove('key-highlight'))
     }
-  })
+  }
+  window.addEventListener('blur', handleWindowBlur)
 
-  window.addEventListener('focus', () => {
+  const handleWindowFocus = () => {
     if (capsLocked) {
       keyboard.classList.add('upper')
       keyboard.classList.remove('lower')
@@ -372,5 +376,19 @@ export default function (keyboardElement, inputElement) {
       keyboard.classList.remove('upper')
       keyboard.classList.add('lower')
     }
-  })
+  }
+  window.addEventListener('focus', handleWindowFocus)
+
+  // remove listeners
+  return () => {
+    textElement.removeEventListener('keydown', preventDefault)
+    document.removeEventListener('mousedown', dropHandler)
+    document.removeEventListener('keydown', dropHandler)
+    document.removeEventListener('keydown', handleChangeLayout)
+    document.removeEventListener('keyup', handleUp)
+    document.removeEventListener('mousedown', addHighlight)
+    document.removeEventListener('mouseup', removeHighlight)
+    window.removeEventListener('blur', handleWindowBlur)
+    window.removeEventListener('focus', handleWindowFocus)
+  }
 }

@@ -13,8 +13,17 @@ const clearInputButton = searchForm.querySelector('#clear-input')
 const keyboardButton = searchForm.querySelector('.search-keyboard')
 const keyboardElement = searchForm.querySelector('#keyboard')
 
+let removeKeyboardListeners
+let isKeyboardOpen = false
 keyboardButton.addEventListener('click', () => {
-  keyboard(keyboardElement, searchInput)
+  if (isKeyboardOpen) {
+    removeKeyboardListeners()
+    keyboardElement.innerHTML = ''
+    isKeyboardOpen = false
+  } else {
+    removeKeyboardListeners = keyboard(keyboardElement, searchInput)
+    isKeyboardOpen = true
+  }
 })
 
 const state = {
