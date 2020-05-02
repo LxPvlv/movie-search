@@ -1,5 +1,5 @@
 export const movieTemplate = ({ Title, Poster, Year, imdbRating }) => {
-  const src = Poster !== 'N/A' ? Poster : './assets/images/404-poster.jpg'
+  const src = Poster !== 'N/A' ? Poster : './assets/images/no-poster.jpg'
   const movie = document.createElement('div')
   movie.setAttribute('class', 'swiper-slide')
   movie.innerHTML = `
