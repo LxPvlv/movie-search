@@ -1,9 +1,11 @@
-export const movieTemplate = ({ Title, Poster, Year, imdbRating }) => {
+export const movieTemplate = ({ Title, Poster, Year, imdbID, imdbRating }) => {
   const src = Poster !== 'N/A' ? Poster : './assets/images/no-poster.jpg'
   const movie = document.createElement('div')
   movie.setAttribute('class', 'swiper-slide')
   movie.innerHTML = `
-<h2 class="movie__title">${Title}</h2>
+<a class="movie__link" href="https://www.imdb.com/title/${imdbID}/videogallery/">
+  <h2 class="movie__title" title="${Title}">${Title}</h2>
+</a>
 <img class="movie__img" data-src="${src}"/>
 <div class="movie__rating">
   <img src="./assets/images/rating-star.svg">
