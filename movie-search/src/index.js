@@ -49,6 +49,7 @@ const movieSwiper = new Swiper('.swiper-container', {
   watchSlidesVisibility: true,
   slidesPerView: 4,
   spaceBetween: 10,
+  centerInsufficientSlides: true,
   pagination: {
     el: '.swiper-pagination',
     type: 'fraction',
