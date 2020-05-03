@@ -24,3 +24,26 @@ export async function searchMovieById(id) {
   const response = await getData(request)
   return response
 }
+
+export function setImages(slides) {
+  return Promise.all(
+    slides.map(async slide => {
+      const img = slide.querySelector('img')
+      const src = img.getAttribute('srcForCheck')
+      img.removeAttribute('srcForCheck')
+      try {
+        const response = await fetch(src, { mode: 'cors' })
+        if (response.ok) {
+          const blob = await response.blob()
+          img.src = URL.createObjectURL(blob)
+        } else {
+          img.src = './assets/images/404-poster.jpg'
+        }
+      } catch (e) {
+        img.src = './assets/images/404-poster.jpg'
+      }
+
+      return slide
+    }),
+  )
+}

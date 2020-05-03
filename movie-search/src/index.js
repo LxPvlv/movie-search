@@ -2,7 +2,7 @@ import './assets/styles/main.scss'
 import '../node_modules/swiper/css/swiper.min.css'
 
 import Swiper from 'swiper'
-import { searchMoviesByTitle, searchMovieById } from './data'
+import { searchMoviesByTitle, searchMovieById, setImages } from './data'
 import { movieTemplate } from './templates'
 import keyboard from './keyboard'
 
@@ -112,7 +112,9 @@ async function addSlides(newQuery = false) {
         return movieTemplate(result)
       })
 
-      movieSwiper.appendSlide(slides)
+      const slidesWithImages = await setImages(slides)
+
+      movieSwiper.appendSlide(slidesWithImages)
       movieSwiper.update()
       state.page = newQuery ? 1 : state.page + 1
     }
