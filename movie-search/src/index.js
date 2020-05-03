@@ -11,6 +11,7 @@ const messageField = document.querySelector('#message-field')
 const searchInput = searchForm.querySelector('#search-input')
 const clearInputButton = searchForm.querySelector('#clear-input')
 const keyboardButton = searchForm.querySelector('.search-keyboard')
+const inputSpinner = searchForm.querySelector('#input-spinner')
 const keyboardElement = document.querySelector('#keyboard')
 
 let removeKeyboardListeners
@@ -69,6 +70,10 @@ const movieSwiper = new Swiper('.swiper-container', {
   },
 })
 
+function showLoader() {
+  inputSpinner.classList.remove('input-spinner_hidden')
+}
+
 function hasMoreSlides() {
   const { totalResults } = state
   const swiperLength = movieSwiper.slides.length
@@ -119,7 +124,8 @@ function handleSubmit(e) {
   e.preventDefault()
   if (searchInput.value === '') return
 
-  addSlides(true)
+  showLoader()
+  addSlides(true).then(() => inputSpinner.classList.add('input-spinner_hidden'))
 }
 
 searchForm.addEventListener('submit', handleSubmit)
