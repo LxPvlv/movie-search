@@ -1,17 +1,19 @@
-const key = '1dad9129'
-const source = `https://www.omdbapi.com/?apikey=${key}`
+const KEY = '1dad9129'
+const SOURCE = `https://www.omdbapi.com/?apikey=${KEY}`
 
-export async function getData(request) {
-  const response = await fetch(request)
+export async function getData(request, options) {
+  const response = await fetch(request, options)
 
-  if (response.ok) return response.json()
+  if (response.ok) return response
 
   throw new Error(`${response.status} ${response.statusText}`)
 }
 
+export const getJsonData = request =>
+  getData(request).then(response => response.json())
+
 export async function searchMoviesByTitle(title, page) {
-  const request = `${source}&s=${title}&page=${page}`
-  const response = await getData(request)
+  const response = await getJsonData(`${SOURCE}&s=${title}&page=${page}`)
 
   if (response.Response === 'False')
     throw new Error(`No results for: "${title}"`)
@@ -19,31 +21,22 @@ export async function searchMoviesByTitle(title, page) {
   return response
 }
 
-export async function searchMovieById(id) {
-  const request = `${source}&i=${id}`
-  const response = await getData(request)
-  return response
-}
+export const searchMovieById = id => getJsonData(`${SOURCE}&i=${id}`)
 
 export function setImages(slides) {
   return Promise.all(
-    slides.map(async slide => {
-      const img = slide.querySelector('img')
-      const src = img.getAttribute('srcForCheck')
-      img.removeAttribute('srcForCheck')
-      try {
-        const response = await fetch(src, { mode: 'cors' })
-        if (response.ok) {
-          const blob = await response.blob()
-          img.src = URL.createObjectURL(blob)
-        } else {
+    slides.map(slide => {
+      return new Promise(resolve => {
+        const img = slide.querySelector('img')
+        const { src } = img.dataset
+        img.removeAttribute('data-src')
+        img.onload = () => resolve(slide)
+        img.onerror = () => {
           img.src = './assets/images/404-poster.jpg'
+          resolve(slide)
         }
-      } catch (e) {
-        img.src = './assets/images/404-poster.jpg'
-      }
-
-      return slide
+        img.src = src
+      })
     }),
   )
 }
