@@ -57,7 +57,12 @@ const movieSwiper = new Swiper('.swiper-container', {
   centerInsufficientSlides: true,
   pagination: {
     el: '.swiper-pagination',
-    type: 'fraction',
+    type: 'custom',
+    renderCustom(swiper, current) {
+      if (state.totalResults && swiper.slides.length)
+        return `${current} of ${state.totalResults}`
+      return ''
+    },
   },
   navigation: {
     nextEl: '.swiper-button-next',
