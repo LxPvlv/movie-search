@@ -73,10 +73,20 @@ main {
   }
 }
 
+.movie__img-container {
+  position: relative;
+  padding-top: 147%;
+  width: 100%;
+}
+
 .movie__img {
   width: 100%;
-  flex-grow: 1;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: block;
 }
 
 .movie__info {

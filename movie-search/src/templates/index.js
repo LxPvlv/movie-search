@@ -6,7 +6,9 @@ export const movieTemplate = ({ Title, Poster, Year, imdbID, imdbRating }) => {
 <a class="movie__link" href="https://www.imdb.com/title/${imdbID}/videogallery/">
   <h2 class="movie__title" title="${Title}">${Title}</h2>
 </a>
-<img class="movie__img" data-src="${src}"/>
+<div class="movie__img-container">
+  <img class="movie__img" data-src="${src}"/>
+</div>
 <div class="movie__rating">
   <img src="./assets/images/rating-star.svg">
   <span>${imdbRating}</span>
