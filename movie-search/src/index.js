@@ -102,8 +102,8 @@ async function addSlides(newQuery = false) {
   if (newQuery) messageField.innerHTML = ''
 
   if (value.match(/[А-Яа-я]/)) {
-    messageField.innerHTML = `Showing results for ${value}`
     value = await translate(value)
+    messageField.innerHTML = `Showing results for: "${value}"`
   }
 
   if (!newQuery && !hasMoreSlides()) return
