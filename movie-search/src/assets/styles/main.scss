@@ -8,6 +8,7 @@ html {
 }
 
 body {
+  font-family: 'Tinos', serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -16,6 +17,7 @@ body {
   color: #f5deb3;
   font-weight: 700;
   font-size: 2.5rem;
+  line-height: 2.5rem;
 }
 
 main {
@@ -47,9 +49,12 @@ main {
 }
 
 .message-field {
+  font-family: 'Roboto', sans-serif;
   padding: 0;
   font-size: 2rem;
-  min-height: 70px;
+  font-weight: 400;
+  min-height: 55px;
+  padding-bottom: 5px;
 }
 
 .swiper-container {
@@ -67,7 +72,8 @@ main {
 
 .movie__title {
   font-size: 2.5rem;
-  height: 55px;
+  line-height: 2.5rem;
+  height: 52px;
   margin: 0 0 5px;
   overflow: hidden;
 }
