@@ -2,7 +2,12 @@ import './assets/styles/main.scss'
 import '../node_modules/swiper/css/swiper.min.css'
 
 import Swiper from 'swiper'
-import { searchMoviesByTitle, searchMovieById, setImages } from './data'
+import {
+  searchMoviesByTitle,
+  searchMovieById,
+  setImages,
+  translate,
+} from './data'
 import { movieTemplate } from './templates'
 import keyboard from './keyboard'
 
@@ -91,9 +96,15 @@ async function getSlides(search, newQuery) {
 }
 
 async function addSlides(newQuery = false) {
-  const value = newQuery ? searchInput.value : state.currentSwiperQuery
+  let value = newQuery ? searchInput.value : state.currentSwiperQuery
 
   if (value === '') return
+  if (newQuery) messageField.innerHTML = ''
+
+  if (value.match(/[А-Яа-я]/)) {
+    messageField.innerHTML = `Showing results for ${value}`
+    value = await translate(value)
+  }
 
   if (!newQuery && !hasMoreSlides()) return
 
@@ -105,7 +116,6 @@ async function addSlides(newQuery = false) {
         movieSwiper.removeAllSlides()
         movieSwiper.update()
         state.currentSwiperQuery = value
-        messageField.innerHTML = ''
       }
 
       const slides = results.map(result => {
