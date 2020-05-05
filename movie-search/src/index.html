@@ -22,7 +22,7 @@
           <button class="search-keyboard" type="button"></button>
         </div>
         <div class="search-tools">
-          <div class="input-spinner input-spinner-circle input-spinner_hidden" id="input-spinner"></div>
+          <div class="input-spinner input-spinner-circle hidden" id="input-spinner"></div>
           <button class="clear-input" id="clear-input" type="button"></button>
           <button class="search-lens" type="submit"></button>
         </div>
@@ -32,7 +32,7 @@
     <div id="message-field" class="message-field"></div>
     <div class="keyboard keyboard_hidden" id="keyboard"></div>
 
-    <div class="swiper-container">
+    <div id="swiper-container" class="swiper-container">
       <div class="swiper-wrapper">
       </div>
 
@@ -42,6 +42,11 @@
       <div class="swiper-button-next"></div>
 
       <div class="swiper-scrollbar"></div>
+
+    </div>
+
+    <div class="swiper-spinner-container swiper-spinner-container_init hidden" id="swiper-spinner-container">
+      <div id="swiper-spinner" class="swiper-spinner "></div>
     </div>
 
   </main>

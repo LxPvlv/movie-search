@@ -17,6 +17,10 @@ const searchInput = searchForm.querySelector('#search-input')
 const clearInputButton = searchForm.querySelector('#clear-input')
 const keyboardButton = searchForm.querySelector('.search-keyboard')
 const inputSpinner = searchForm.querySelector('#input-spinner')
+const swiperContainer = document.querySelector('#swiper-container')
+const swiperSpinnerContainer = document.querySelector(
+  '#swiper-spinner-container',
+)
 const keyboardElement = document.querySelector('#keyboard')
 
 let removeKeyboardListeners
@@ -41,6 +45,8 @@ const state = {
 }
 
 const movieSwiper = new Swiper('.swiper-container', {
+  init: false,
+  updateOnWindowResize: true,
   grabCursor: true,
   scrollbar: {
     el: '.swiper-scrollbar',
@@ -81,8 +87,11 @@ const movieSwiper = new Swiper('.swiper-container', {
   },
 })
 
-function showLoader() {
-  inputSpinner.classList.remove('input-spinner_hidden')
+function showLoader(spinner) {
+  spinner.classList.remove('hidden')
+}
+function hideLoader(spinner) {
+  spinner.classList.add('hidden')
 }
 
 function hasMoreSlides() {
@@ -100,6 +109,25 @@ async function getSlides(search, newQuery) {
   return Promise.all(movies.Search.map(({ imdbID }) => searchMovieById(imdbID)))
 }
 
+async function renderSlides(results, newQuery) {
+  if (results.length) {
+    if (newQuery) {
+      movieSwiper.removeAllSlides()
+      movieSwiper.update()
+    }
+
+    const slides = results.map(result => {
+      return movieTemplate(result)
+    })
+
+    const slidesWithImages = await setImages(slides)
+
+    movieSwiper.appendSlide(slidesWithImages)
+    movieSwiper.update()
+    state.page = newQuery ? 1 : state.page + 1
+  }
+}
+
 async function addSlides(newQuery = false) {
   let value = newQuery ? searchInput.value : state.currentSwiperQuery
 
@@ -113,26 +141,12 @@ async function addSlides(newQuery = false) {
 
   if (!newQuery && !hasMoreSlides()) return
 
+  state.currentSwiperQuery = value
+
   try {
     const results = await getSlides(value, newQuery)
 
-    if (results.length) {
-      if (newQuery) {
-        movieSwiper.removeAllSlides()
-        movieSwiper.update()
-        state.currentSwiperQuery = value
-      }
-
-      const slides = results.map(result => {
-        return movieTemplate(result)
-      })
-
-      const slidesWithImages = await setImages(slides)
-
-      movieSwiper.appendSlide(slidesWithImages)
-      movieSwiper.update()
-      state.page = newQuery ? 1 : state.page + 1
-    }
+    renderSlides(results, newQuery)
   } catch (err) {
     messageField.innerHTML = err.message
   }
@@ -142,8 +156,8 @@ function handleSubmit(e) {
   e.preventDefault()
   if (searchInput.value === '') return
 
-  showLoader()
-  addSlides(true).then(() => inputSpinner.classList.add('input-spinner_hidden'))
+  showLoader(inputSpinner)
+  addSlides(true).then(() => hideLoader(inputSpinner))
 }
 
 searchForm.addEventListener('submit', handleSubmit)
@@ -156,5 +170,24 @@ searchInput.focus()
 
 movieSwiper.on('reachEnd', () => {
   const swiperLength = movieSwiper.slides.length
-  if (swiperLength) addSlides()
+  if (swiperLength && swiperLength !== state.totalResults) {
+    showLoader(swiperSpinnerContainer)
+    addSlides().then(() => hideLoader(swiperSpinnerContainer))
+  }
 })
+
+movieSwiper.on('init', async () => {
+  showLoader(swiperSpinnerContainer)
+
+  const value = 'slider'
+  const results = await getSlides(value, true)
+  await renderSlides(results, true)
+  state.currentSwiperQuery = value
+
+  hideLoader(swiperSpinnerContainer)
+
+  swiperContainer.append(swiperSpinnerContainer)
+  swiperSpinnerContainer.classList.remove('swiper-spinner-container_init')
+})
+
+movieSwiper.init()

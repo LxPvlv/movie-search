@@ -3,6 +3,10 @@
 @import './keyboard';
 @import './spinner';
 
+.hidden {
+  display: none;
+}
+
 html {
   font-size: 10px;
 }

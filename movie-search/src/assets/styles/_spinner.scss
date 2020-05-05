@@ -1,31 +1,43 @@
+@mixin spinner($b) {
+  border: $b rgba(#f5ddb2, 0.25) solid;
+  border-top: $b rgba(#f5ddb2, 1) solid;
+  border-radius: 50%;
+  animation: spCircRot 2s infinite linear;
+}
+
+@keyframes spCircRot {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
 .input-spinner {
+  @include spinner(4px);
   width: 26px;
   height: 26px;
+}
 
-  &.input-spinner-circle {
-    border: 4px rgba(#f5ddb2, 0.25) solid;
-    border-top: 4px rgba(#f5ddb2, 1) solid;
-    border-radius: 50%;
-    animation: spCircRot 0.6s infinite linear;
-  }
-  &_hidden {
-    display: none;
-  }
+.swiper-spinner {
+  @include spinner(20px);
+  width: 100px;
+  height: 100px;
+}
 
-  @-webkit-keyframes spCircRot {
-    from {
-      -webkit-transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(359deg);
-    }
-  }
-  @keyframes spCircRot {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(359deg);
-    }
-  }
+.swiper-spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(20, 25, 39, 0.45);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swiper-spinner-container_init {
+  position: fixed;
 }
