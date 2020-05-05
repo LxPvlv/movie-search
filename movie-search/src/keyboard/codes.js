@@ -101,7 +101,7 @@ export default [
   ],
   [
     { code: 'ControlLeft', label: 'Ctrl', type: 'r' },
-    { code: 'MetaLeft', label: '⊞', type: 's' },
+    { code: 'MetaLeft', label: 'ru-en', type: 's' },
     { code: 'AltLeft', label: 'Alt', type: 'r' },
     {
       code: 'Space',
