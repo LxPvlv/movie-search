@@ -141,12 +141,12 @@ async function addSlides(newQuery = false) {
 
   if (!newQuery && !hasMoreSlides()) return
 
-  state.currentSwiperQuery = value
-
   try {
     const results = await getSlides(value, newQuery)
 
     renderSlides(results, newQuery)
+
+    state.currentSwiperQuery = value
   } catch (err) {
     messageField.innerHTML = err.message
   }
@@ -164,6 +164,7 @@ searchForm.addEventListener('submit', handleSubmit)
 
 clearInputButton.addEventListener('click', () => {
   searchInput.value = ''
+  messageField.innerHTML = ''
 })
 
 searchInput.focus()
