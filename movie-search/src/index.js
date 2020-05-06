@@ -78,10 +78,13 @@ const movieSwiper = new Swiper('.swiper-container', {
     220: {
       slidesPerView: 1,
     },
-    480: {
+    360: {
+      slidesPerView: 2,
+    },
+    700: {
       slidesPerView: 3,
     },
-    640: {
+    1000: {
       slidesPerView: 4,
     },
   },
