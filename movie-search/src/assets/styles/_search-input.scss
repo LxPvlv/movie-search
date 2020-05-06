@@ -15,6 +15,10 @@
   width: 100%;
   min-width: 0;
   @include border;
+
+  @media (max-width: 842px) {
+    padding-left: 33px;
+  }
 }
 
 .search-methods,
@@ -71,6 +75,10 @@
   width: 51px;
   &:hover {
     background-image: url('../images/keyboard-hover.svg');
+  }
+
+  @media (max-width: 842px) {
+    display: none;
   }
 }
 .search-lens {

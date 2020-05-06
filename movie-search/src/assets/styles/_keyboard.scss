@@ -13,15 +13,20 @@
 .keyboard {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  min-width: 842px;
   position: absolute;
   background: #222a41;
   z-index: 2;
   font-size: 1.6rem;
   line-height: 2rem;
   box-sizing: border-box;
+  margin: 0 20px;
+  left: 0;
+  right: 0;
   @include border;
+
+  @media (max-width: 842px) {
+    display: none;
+  }
 }
 .keyboard_hidden {
   display: none;
