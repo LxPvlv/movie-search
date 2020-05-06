@@ -10,13 +10,19 @@ export async function getData(request, options) {
 }
 
 export const getJsonData = request =>
-  getData(request).then(response => response.json())
+  getData(request)
+    .then(response => response.json())
+    .catch(err => ({ Response: 'False', Error: err }))
 
 export async function searchMoviesByTitle(title, page) {
   const response = await getJsonData(`${SOURCE}&s=${title}&page=${page}`)
 
-  if (response.Response === 'False')
-    throw new Error(`No results for: "${title}"`)
+  if (response.Response === 'False') {
+    if (response.Error === 'Too many results.')
+      throw new Error(`Too many results for: "${title}"`)
+    if (response.Error === 'Movie not found!')
+      throw new Error(`No results for: "${title}"`)
+  }
 
   return response
 }

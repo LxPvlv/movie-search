@@ -106,6 +106,8 @@ async function getSlides(search, newQuery) {
 
   state.totalResults = Number(movies.totalResults)
 
+  if (!movies.Search) throw Error('Cannot get movies')
+
   return Promise.all(movies.Search.map(({ imdbID }) => searchMovieById(imdbID)))
 }
 
@@ -178,17 +180,21 @@ movieSwiper.on('reachEnd', () => {
 })
 
 movieSwiper.on('init', async () => {
-  showLoader(swiperSpinnerContainer)
+  try {
+    showLoader(swiperSpinnerContainer)
 
-  const value = 'slider'
-  const results = await getSlides(value, true)
-  await renderSlides(results, true)
-  state.currentSwiperQuery = value
+    const value = 'slider'
+    const results = await getSlides(value, true)
+    await renderSlides(results, true)
+    state.currentSwiperQuery = value
 
-  hideLoader(swiperSpinnerContainer)
-
-  swiperContainer.append(swiperSpinnerContainer)
-  swiperSpinnerContainer.classList.remove('swiper-spinner-container_init')
+    swiperSpinnerContainer.classList.remove('swiper-spinner-container_init')
+    swiperContainer.append(swiperSpinnerContainer)
+  } catch (err) {
+    messageField.innerHTML = err.message
+  } finally {
+    hideLoader(swiperSpinnerContainer)
+  }
 })
 
 movieSwiper.init()
