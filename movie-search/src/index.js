@@ -15,6 +15,7 @@ const searchForm = document.querySelector('#search-form')
 const messageField = document.querySelector('#message-field')
 const searchInput = searchForm.querySelector('#search-input')
 const clearInputButton = searchForm.querySelector('#clear-input')
+const micButton = searchForm.querySelector('#search-mic')
 const keyboardButton = searchForm.querySelector('.search-keyboard')
 const inputSpinner = searchForm.querySelector('#input-spinner')
 const swiperContainer = document.querySelector('#swiper-container')
@@ -22,6 +23,26 @@ const swiperSpinnerContainer = document.querySelector(
   '#swiper-spinner-container',
 )
 const keyboardElement = document.querySelector('#keyboard')
+
+micButton.addEventListener('click', () => {
+  const SR = window.webkitSpeechRecognition || window.SpeechRecognition
+  if (!SR) return
+
+  const recognition = new SR()
+  recognition.lang = 'en-En'
+  micButton.classList.add('search-mic_active')
+
+  recognition.addEventListener('result', recognitionEvent => {
+    searchInput.value = recognitionEvent.results[0][0].transcript
+    micButton.classList.remove('search-mic_active')
+  })
+
+  recognition.addEventListener('error', () => {
+    micButton.classList.remove('search-mic_active')
+  })
+
+  recognition.start()
+})
 
 let removeKeyboardListeners
 let isKeyboardOpen = false

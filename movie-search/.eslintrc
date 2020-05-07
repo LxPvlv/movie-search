@@ -3,6 +3,10 @@
     "browser": true,
     "es6": true
   },
+  "globals": {
+    "SpeechRecognition": "readonly",
+    "webkitSpeechRecognition": "readonly"
+  },
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 2018,
