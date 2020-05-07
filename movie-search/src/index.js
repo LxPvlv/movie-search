@@ -72,9 +72,8 @@ const state = {
   currentSwiperQuery: '',
 }
 
-const movieSwiper = new Swiper('.swiper-container', {
+const movieSwiper = new Swiper(swiperContainer, {
   init: false,
-  updateOnWindowResize: true,
   grabCursor: true,
   scrollbar: {
     el: '.swiper-scrollbar',
@@ -142,18 +141,57 @@ async function getSlides(search, newQuery) {
   return Promise.all(movies.Search.map(({ imdbID }) => searchMovieById(imdbID)))
 }
 
+function animateImages(newSlides, newQuery) {
+  const oldActiveImages = swiperContainer.querySelectorAll(
+    '.swiper-slide-visible .movie__img',
+  )
+
+  if (newQuery && movieSwiper.slides.length) {
+    const oldSlidesLength = oldActiveImages.length
+    const newSlidesLength = newSlides.length
+
+    Array(Math.max(oldSlidesLength, newSlidesLength))
+      .fill(0)
+      .forEach((_, id) => {
+        const slide = newSlides[id]
+        let imgContainer
+        if (slide) imgContainer = slide.querySelector('.movie__img-container')
+
+        if (id < newSlidesLength) {
+          const newImg = imgContainer.querySelector('.movie__img')
+          newImg.classList.add('movie__img_fade-in')
+          newImg.onanimationend = e =>
+            e.target.classList.remove('movie__img_fade-in')
+        }
+
+        let oldImg
+        if (id < oldSlidesLength) {
+          oldImg = oldActiveImages[id]
+          oldImg.classList.add('movie__img_fade-out')
+          oldImg.onanimationend = e => e.target.remove()
+        }
+
+        if (slide && oldImg) {
+          imgContainer.append(oldImg)
+        }
+      })
+  }
+}
+
 async function renderSlides(results, newQuery) {
   if (results.length) {
-    if (newQuery) {
-      movieSwiper.removeAllSlides()
-      movieSwiper.update()
-    }
-
     const slides = results.map(result => {
       return movieTemplate(result)
     })
 
     const slidesWithImages = await setImages(slides)
+
+    animateImages(slidesWithImages, newQuery)
+
+    if (newQuery) {
+      movieSwiper.removeAllSlides()
+      movieSwiper.update()
+    }
 
     movieSwiper.appendSlide(slidesWithImages)
     movieSwiper.update()
