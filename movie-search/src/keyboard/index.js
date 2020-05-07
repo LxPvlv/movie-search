@@ -282,9 +282,6 @@ export default function (keyboardElement, inputElement) {
     keyElement.classList.remove('key-highlight')
   }
 
-  const preventDefault = e => e.preventDefault()
-  textElement.addEventListener('keydown', preventDefault)
-
   let dropHandler
   const addDropHandlers = (lockedShift, keyElement) => {
     dropHandler = ({ code: dropKeyCode }) => {
@@ -295,34 +292,13 @@ export default function (keyboardElement, inputElement) {
         handleUp({ code: lockedShift })
       }
 
-      document.removeEventListener('mousedown', dropHandler)
-      document.removeEventListener('keydown', dropHandler)
+      keyboard.removeEventListener('mousedown', dropHandler)
     }
 
-    document.addEventListener('mousedown', dropHandler, {
-      once: true,
-    })
-
-    document.addEventListener('keydown', dropHandler, {
+    keyboard.addEventListener('mousedown', dropHandler, {
       once: true,
     })
   }
-
-  const handleKeyDown = e => {
-    const code = crossBrowserCode(e.code)
-    if (
-      (code === 'ControlLeft' || code === 'AltLeft') &&
-      e.ctrlKey &&
-      e.altKey
-    ) {
-      changeLayout()
-    }
-
-    handleDown(code)
-  }
-  document.addEventListener('keydown', handleKeyDown)
-
-  document.addEventListener('keyup', handleUp)
 
   const addHighlight = e => {
     const keyElement = e.target
@@ -343,7 +319,7 @@ export default function (keyboardElement, inputElement) {
 
     handleDown(code)
   }
-  document.addEventListener('mousedown', addHighlight)
+  keyboard.addEventListener('mousedown', addHighlight)
 
   const removeHighlight = e => {
     const code = e.target.id
@@ -356,7 +332,7 @@ export default function (keyboardElement, inputElement) {
       key.classList.remove('key-highlight')
     })
   }
-  document.addEventListener('mouseup', removeHighlight)
+  keyboard.addEventListener('mouseup', removeHighlight)
 
   const handleWindowBlur = () => {
     shiftPressed.left = false
@@ -382,13 +358,9 @@ export default function (keyboardElement, inputElement) {
 
   // remove listeners
   const removeKeyboardListeners = () => {
-    textElement.removeEventListener('keydown', preventDefault)
-    document.removeEventListener('mousedown', dropHandler)
-    document.removeEventListener('keydown', dropHandler)
-    document.removeEventListener('keydown', handleKeyDown)
-    document.removeEventListener('keyup', handleUp)
-    document.removeEventListener('mousedown', addHighlight)
-    document.removeEventListener('mouseup', removeHighlight)
+    keyboard.removeEventListener('mousedown', dropHandler)
+    keyboard.removeEventListener('mousedown', addHighlight)
+    keyboard.removeEventListener('mouseup', removeHighlight)
     window.removeEventListener('blur', handleWindowBlur)
     window.removeEventListener('focus', handleWindowFocus)
   }
