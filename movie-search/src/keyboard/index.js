@@ -1,7 +1,13 @@
 import codes from './codes'
 
-export default function (keyboardElement, inputElement) {
-  const textElement = inputElement
+export default function (options) {
+  let removeKeyboardListeners
+  const {
+    keyboardElement,
+    searchInput: inputElement,
+    handleSubmit,
+    escHandler,
+  } = options
   const keyboard = keyboardElement
 
   const crossBrowserCode = code => ({ OSLeft: 'MetaLeft' }[code] || code)
@@ -111,24 +117,26 @@ export default function (keyboardElement, inputElement) {
         text = '\t'
         break
       case 'Enter':
-        text = '\n'
-        break
+        handleSubmit()
+        escHandler()
+        return
+
       default:
         text = pictContainer.innerText
     }
 
-    const { selectionStart, selectionEnd, value } = textElement
+    const { selectionStart, selectionEnd, value } = inputElement
     const edited =
       value.slice(0, selectionStart) + text + value.slice(selectionEnd)
-    textElement.value = edited
-    textElement.focus()
-    textElement.selectionStart = selectionStart + 1
-    textElement.selectionEnd = selectionStart + 1
+    inputElement.value = edited
+    inputElement.focus()
+    inputElement.selectionStart = selectionStart + 1
+    inputElement.selectionEnd = selectionStart + 1
   }
 
   const handleRemoveKeys = code => {
-    const { value } = textElement
-    let { selectionStart, selectionEnd } = textElement
+    const { value } = inputElement
+    let { selectionStart, selectionEnd } = inputElement
 
     if (selectionStart === selectionEnd) {
       switch (code) {
@@ -143,13 +151,13 @@ export default function (keyboardElement, inputElement) {
       }
     }
     const removed = value.slice(0, selectionStart) + value.slice(selectionEnd)
-    textElement.value = removed
-    textElement.selectionStart = selectionStart
-    textElement.selectionEnd = selectionStart
+    inputElement.value = removed
+    inputElement.selectionStart = selectionStart
+    inputElement.selectionEnd = selectionStart
   }
 
   const handleArrowKeys = code => {
-    const { selectionStart, value } = textElement
+    const { selectionStart, value } = inputElement
     let newPosition
 
     if (code === 'ArrowLeft') {
@@ -199,8 +207,8 @@ export default function (keyboardElement, inputElement) {
       }
     }
 
-    textElement.selectionStart = newPosition
-    textElement.selectionEnd = newPosition
+    inputElement.selectionStart = newPosition
+    inputElement.selectionEnd = newPosition
   }
 
   const handleDown = code => {
@@ -218,6 +226,12 @@ export default function (keyboardElement, inputElement) {
       handlerPrintKey(keyElement)
     }
 
+    if (code === 'Escape') {
+      escHandler()
+      removeKeyboardListeners()
+      return
+    }
+
     // handle modifier keys
     if (code === 'MetaLeft') {
       changeLayout()
@@ -233,24 +247,24 @@ export default function (keyboardElement, inputElement) {
 
     // handle navigation keys
     if (code === 'PageUp' || code === 'PageDown') {
-      textElement.scrollBy(
+      inputElement.scrollBy(
         0,
-        textElement.clientHeight * (code === 'PageUp' ? -1 : 1),
+        inputElement.clientHeight * (code === 'PageUp' ? -1 : 1),
       )
     }
 
     if (code === 'Home' || code === 'End') {
-      const { selectionStart, value } = textElement
+      const { selectionStart, value } = inputElement
       if (code === 'Home') {
         const position = value.lastIndexOf('\n', selectionStart - 1)
         const newPosition = position === -1 ? 0 : position + 1
-        textElement.selectionStart = newPosition
-        textElement.selectionEnd = newPosition
+        inputElement.selectionStart = newPosition
+        inputElement.selectionEnd = newPosition
       }
       if (code === 'End') {
         const newPosition = value.indexOf('\n', selectionStart)
-        textElement.selectionStart = newPosition
-        textElement.selectionEnd = newPosition
+        inputElement.selectionStart = newPosition
+        inputElement.selectionEnd = newPosition
       }
     }
 
@@ -324,7 +338,7 @@ export default function (keyboardElement, inputElement) {
   const removeHighlight = e => {
     const code = e.target.id
     if (!(code === 'PageUp' || code === 'PageDown')) {
-      textElement.focus()
+      inputElement.focus()
     }
 
     const pressedKeys = keyboard.querySelectorAll('.key-highlight')
@@ -357,7 +371,7 @@ export default function (keyboardElement, inputElement) {
   window.addEventListener('focus', handleWindowFocus)
 
   // remove listeners
-  const removeKeyboardListeners = () => {
+  removeKeyboardListeners = () => {
     keyboard.removeEventListener('mousedown', dropHandler)
     keyboard.removeEventListener('mousedown', addHighlight)
     keyboard.removeEventListener('mouseup', removeHighlight)

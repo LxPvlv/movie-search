@@ -24,6 +24,8 @@ const swiperSpinnerContainer = document.querySelector(
 )
 const keyboardElement = document.querySelector('#keyboard')
 
+let handleSubmit
+
 micButton.addEventListener('click', () => {
   const SR = window.webkitSpeechRecognition || window.SpeechRecognition
   if (!SR) return
@@ -53,7 +55,12 @@ keyboardButton.addEventListener('click', () => {
     keyboardElement.setAttribute('class', 'keyboard keyboard_hidden')
     isKeyboardOpen = false
   } else {
-    removeKeyboardListeners = keyboard(keyboardElement, searchInput)
+    removeKeyboardListeners = keyboard({
+      keyboardElement,
+      searchInput,
+      handleSubmit,
+      escHandler: () => keyboardButton.click(),
+    })
     isKeyboardOpen = true
     keyboardElement.classList.remove('keyboard_hidden')
   }
@@ -178,8 +185,9 @@ async function addSlides(newQuery = false) {
   }
 }
 
-function handleSubmit(e) {
-  e.preventDefault()
+handleSubmit = e => {
+  if (e) e.preventDefault()
+
   if (searchInput.value === '') return
 
   showLoader(inputSpinner)
