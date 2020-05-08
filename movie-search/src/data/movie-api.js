@@ -1,33 +1,43 @@
+/* eslint-disable max-classes-per-file */
 const KEY = '1dad9129'
 const SOURCE = `https://www.omdbapi.com/?apikey=${KEY}`
+
+export class NetworkError extends Error {
+  constructor(code, message) {
+    super(message)
+    this.code = code
+  }
+}
+
+export class ImdbDataError extends Error {
+  /* */
+}
 
 export async function getData(request, options) {
   const response = await fetch(request, options)
 
   if (response.ok) return response
 
-  throw new Error(`${response.status} ${response.statusText}`)
+  throw new NetworkError(response.status, response.statusText)
 }
 
 export const getJsonData = request =>
-  getData(request)
-    .then(response => response.json())
-    .catch(err => ({ Response: 'False', Error: err }))
+  getData(request).then(response => response.json())
 
-export async function searchMoviesByTitle(title, page) {
-  const response = await getJsonData(`${SOURCE}&s=${title}&page=${page}`)
+const getImdbData = async (...args) => {
+  const response = await getJsonData(...args)
 
   if (response.Response === 'False') {
-    if (response.Error === 'Too many results.')
-      throw new Error(`Too many results for: "${title}"`)
-    if (response.Error === 'Movie not found!')
-      throw new Error(`No results for: "${title}"`)
+    throw new ImdbDataError(response.Error)
   }
 
   return response
 }
 
-export const searchMovieById = id => getJsonData(`${SOURCE}&i=${id}`)
+export const searchMoviesByTitle = (title, page) =>
+  getImdbData(`${SOURCE}&s=${title}&page=${page}`)
+
+export const searchMovieById = id => getImdbData(`${SOURCE}&i=${id}`)
 
 export function setImages(slides) {
   return Promise.all(

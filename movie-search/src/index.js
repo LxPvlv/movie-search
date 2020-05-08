@@ -7,6 +7,8 @@ import {
   searchMovieById,
   setImages,
   translate,
+  NetworkError,
+  ImdbDataError,
 } from './data'
 import { movieTemplate } from './templates'
 import keyboard from './keyboard'
@@ -132,13 +134,32 @@ function hasMoreSlides() {
 
 async function getSlides(search, newQuery) {
   const nextPage = newQuery ? 1 : state.page + 1
-  const movies = await searchMoviesByTitle(search, nextPage)
+  try {
+    const movies = await searchMoviesByTitle(search, nextPage)
 
-  state.totalResults = Number(movies.totalResults)
+    state.totalResults = Number(movies.totalResults)
 
-  if (!movies.Search) throw Error('Cannot get movies')
+    if (!movies.Search) throw Error('Cannot get movies')
 
-  return Promise.all(movies.Search.map(({ imdbID }) => searchMovieById(imdbID)))
+    return Promise.all(
+      movies.Search.map(({ imdbID }) => searchMovieById(imdbID)),
+    )
+  } catch (err) {
+    if (err instanceof NetworkError) {
+      messageField.innerHTML = 'Sorry something went wrong'
+      return []
+    }
+    if (err instanceof ImdbDataError) {
+      if (err.message === 'Too many results.')
+        messageField.innerHTML = `Too many results for: "${search}"`
+      if (err.message === 'Movie not found!')
+        messageField.innerHTML = `No results for: "${search}"`
+      return []
+    }
+
+    messageField.innerHTML = err.message
+    throw err
+  }
 }
 
 function animateImages(newSlides, newQuery) {
@@ -260,8 +281,6 @@ movieSwiper.on('init', async () => {
 
     swiperSpinnerContainer.classList.remove('swiper-spinner-container_init')
     swiperContainer.append(swiperSpinnerContainer)
-  } catch (err) {
-    messageField.innerHTML = err.message
   } finally {
     hideLoader(swiperSpinnerContainer)
   }
