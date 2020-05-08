@@ -3,7 +3,7 @@ export const movieTemplate = ({ Title, Poster, Year, imdbID, imdbRating }) => {
   const movie = document.createElement('div')
   movie.setAttribute('class', 'swiper-slide')
   movie.innerHTML = `
-<a class="movie__link" href="https://www.imdb.com/title/${imdbID}/videogallery/">
+<a class="movie__link" href="https://www.imdb.com/title/${imdbID}/videogallery/" target="blank">
   <h2 class="movie__title" title="${Title}">${Title}</h2>
 </a>
 <div class="movie__img-container">
