@@ -197,7 +197,7 @@ class App {
       )
     } catch (err) {
       if (err instanceof NetworkError) {
-        this.messageField.innerHTML = 'Sorry something went wrong'
+        this.messageField.innerHTML = `Sorry something went wrong. ${err.message}`
         return []
       }
       if (err instanceof ImdbDataError) {

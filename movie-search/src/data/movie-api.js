@@ -18,6 +18,8 @@ export async function getData(request, options) {
 
   if (response.ok) return response
 
+  if (response.status === 401) return response
+
   throw new NetworkError(response.status, response.statusText)
 }
 
