@@ -5,7 +5,6 @@ import Swiper from 'swiper'
 import {
   searchMoviesByTitle,
   searchMovieById,
-  setImages,
   translate,
   NetworkError,
   ImdbDataError,
@@ -197,6 +196,24 @@ function animateImages(newSlides, newQuery) {
         }
       })
   }
+}
+
+function setImages(slides) {
+  return Promise.all(
+    slides.map(slide => {
+      return new Promise(resolve => {
+        const img = slide.querySelector('img')
+        const { src } = img.dataset
+        img.removeAttribute('data-src')
+        img.onload = () => resolve(slide)
+        img.onerror = () => {
+          img.src = './assets/images/404-poster.jpg'
+          resolve(slide)
+        }
+        img.src = src
+      })
+    }),
+  )
 }
 
 async function renderSlides(results, newQuery) {

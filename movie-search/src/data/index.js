@@ -1,7 +1,6 @@
 export {
   searchMoviesByTitle,
   searchMovieById,
-  setImages,
   NetworkError,
   ImdbDataError,
 } from './movie-api'
