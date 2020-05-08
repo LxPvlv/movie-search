@@ -205,6 +205,7 @@ class App {
           this.messageField.innerHTML = `Too many results for: "${search}"`
         if (err.message === 'Movie not found!')
           this.messageField.innerHTML = `No results for: "${search}"`
+        else this.messageField.innerHTML = err.message
         return []
       }
 
