@@ -108,7 +108,7 @@ class App {
       try {
         App.showLoader(this.swiperSpinnerContainer)
 
-        const value = 'slider'
+        const value = 'async'
         const results = await this.getSlides(value, true)
         await this.renderSlides(results, true)
         state.currentSwiperQuery = value
