@@ -26,7 +26,6 @@ class App {
     this.clearInputButton = this.searchForm.querySelector('#clear-input')
     this.micButton = this.searchForm.querySelector('#search-mic')
     this.keyboardButton = this.searchForm.querySelector('.search-keyboard')
-    this.inputSpinner = this.searchForm.querySelector('#input-spinner')
     this.swiperContainer = document.querySelector('#swiper-container')
     this.swiperSpinnerContainer = document.querySelector(
       '#swiper-spinner-container',
@@ -173,8 +172,8 @@ class App {
 
     if (this.searchInput.value === '') return
 
-    App.showLoader(this.inputSpinner)
-    this.addSlides(true).then(() => App.hideLoader(this.inputSpinner))
+    App.showLoader(this.swiperSpinnerContainer)
+    this.addSlides(true).then(() => App.hideLoader(this.swiperSpinnerContainer))
   }
 
   hasMoreSlides() {

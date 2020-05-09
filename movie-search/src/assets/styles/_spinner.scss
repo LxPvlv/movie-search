@@ -14,12 +14,6 @@
   }
 }
 
-.input-spinner {
-  @include spinner(4px);
-  width: 26px;
-  height: 26px;
-}
-
 .swiper-spinner {
   @include spinner(20px);
   width: 100px;
