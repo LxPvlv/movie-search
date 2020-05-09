@@ -24,6 +24,8 @@ body {
   font-weight: 700;
   font-size: 2.3rem;
   line-height: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
@@ -167,4 +169,33 @@ main {
 
 .swiper-scrollbar-drag {
   background: wheat;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 20px 0;
+}
+
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer__link {
+  color: wheat;
+  text-decoration: none;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+.octicon {
+  display: inline-block;
+  padding-right: 10px;
 }
